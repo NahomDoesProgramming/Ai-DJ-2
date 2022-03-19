@@ -1,0 +1,12 @@
+#song_name
+{
+    box-shadow: 2px 2px 2px rgb(107, 107, 107);
+    font-size: 23px;
+}
+canvas
+{
+    border: 2px solid white;
+    box-shadow: 5px 5px 5px rgb(107, 107, 107);
+    padding: 0px;
+    margin: 0%;
+}
