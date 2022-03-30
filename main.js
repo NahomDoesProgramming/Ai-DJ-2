@@ -4,6 +4,10 @@ leftWristX = 0;
 leftWristY = 0;
 rightWristX = 0;
 rightWristY = 0;
+scoreLeftWrist = 0;
+scoreRightWrist = 0;
+song1Status = "";
+song2Status = "";
 function preload()
 {
     song1 = loadSound("music.mp3");
@@ -27,6 +31,9 @@ function gotPoses(results)
     if(results.length > 0)
     {
         console.log(results);
+        scoreLeftWrist = results[0].pose.keypoints[9].score;
+        scoreRightWrist = results[0].pose.keypoints[10].score;
+        console.log("scoreLeftWrist: " + scoreLeftWrist + "scoreRightWrist = " + scoreRightWrist);
         leftWristX = results[0].pose.leftWrist.x;
         leftWristY = results[0].pose.leftWrist.y;
         console.log("leftWristX = " + leftWristX + " leftWristY = " + leftWristY);
@@ -34,8 +41,39 @@ function gotPoses(results)
         rightWristY = results[0].pose.rightWrist.y;
         console.log("rightWristX = " + rightWristX + " rightWristY = " + rightWristY);
     }
+
 }
 function draw()
 {
-    image(video, 0, 0, 600, 500);
+    image(video, 0, 0, 600, 500);    
+    fill("#2BE");
+    stroke("#2BE");
+    song1Status = song1.isPlaying();
+    song2Status = song2.isPlaying();
+    if(scoreLeftWrist > 0.2)
+    {
+        circle(leftWristX, leftWristY, 20);
+        song1.stop();
+        if(song2Status == false)
+        {
+            song2.play();
+            document.getElementById("song_name").innerHTML = "Song Playing: Megalovania";
+        }
+    }
+    if(scoreRightWrist > 0.2)
+    {
+        circle(rightWristX, rightWristY, 20);
+        song2.stop();
+        if(song1Status == false)
+        {
+            song1.play();
+            document.getElementById("song_name").innerHTML = "Song Playing: Find the Markers theme";
+        }
+    }
+}
+function play()
+{
+    song.play();
+    song.setVolume(1);
+    song.setRate(1);
 }
